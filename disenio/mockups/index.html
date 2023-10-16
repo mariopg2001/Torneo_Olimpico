@@ -9,7 +9,7 @@
 <body>
     <h5>Alta de Pruebas</h5>
 <div class="top-right-button-container">
-    <button type="button" data-toggle="modal" data-target="#FormularioAlta" class="btn btn-primary btn-lg top-right-button mr-1">NUEVA CATEGORÍA</button>
+    <button type="button" data-toggle="modal" data-target="#FormularioAlta" class="btn btn-primary btn-lg top-right-button mr-1">NUEVA PRUEBA</button>
 </div>
 <div class="modal fade" id="FormularioAlta" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
     <div class="modal-dialog" role="document">
