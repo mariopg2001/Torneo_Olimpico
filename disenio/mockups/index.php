@@ -54,16 +54,7 @@
                             </div>
                             <div class="form-row m-4">
                                 <label for="name"><h5>Maximo de participantes de una prueba (por clase)</h5></label>
-                                <input type="number" class="form-control" placeholder="ej.4"  name="name" id="name" >
-
-                            </div>
-                            <div class="form-row m-4">
-                                <label for="name"><h5>Tipo de prueba</h5></label>
-                                <select name="Tipos" id="">
-                                    <option value="0">Exclusiva</option>
-                                    <option value="1">General</option>
-                                    
-                                </select>
+                                <input type="number" class="form-control" placeholder="ej.4" name="name" id="name" min="0">
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
