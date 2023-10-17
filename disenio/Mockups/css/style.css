@@ -1,0 +1,10 @@
+header{
+    width: 100%;
+    padding: 20px;
+}
+.modal-lg { 
+    width: 100%; 
+}
+.modal-dialog{
+    max-width: 1500px;
+}
