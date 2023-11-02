@@ -1,0 +1,19 @@
+
+header{
+    width: 100%;
+    padding: 20px;
+}
+.modal-lg { 
+    width: 100%; 
+}
+.modal-dialog{
+    max-width: 1500px;
+}
+
+table, tr,th,td{
+    border: 1px solid black;
+    
+}
+table{
+    margin:0 auto ;
+}
