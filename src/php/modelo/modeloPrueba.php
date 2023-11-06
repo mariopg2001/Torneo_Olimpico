@@ -64,11 +64,13 @@ require_once "../config/config.php";
         public function pruebas(){
             $sql= 'SELECT * from TO_Pruebas';
             $result= $this->conexion->query($sql);
-            $this->filas=$result->num_rows;
-            return $result;
+            $filas=$result->num_rows;
+            $pruebas=array($result, $filas);
+            return $pruebas;
         }
         public function responsable2($id){
             $sql= 'SELECT nombre from Usuarios WHERE idUsuario='.$id;
+            
             $result= $this->conexion->query($sql);
             $datos= $result->fetch_assoc();
             return $datos['nombre'];

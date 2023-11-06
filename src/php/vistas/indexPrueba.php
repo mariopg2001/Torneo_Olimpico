@@ -3,15 +3,19 @@
     echo '
         <h2>AVISO</h2>
         <h4>¿Seguro que quieres eliminar la categoria: '.$_GET['nombre'].' ?</h4>
-        <button><a href="./vistas/borrar.php?id='.$_GET['id'].'">Sí</button>
-        <button><a href="index.php">No</button>
+        <button><a href="./borrar.php?id='.$_GET['id'].'">Sí</button>
+        <button><a href="indexPrueba.php">No</button>
     ';
 }
 else{
     require_once('../controlador/controladoPrueba.php');
     $controlador= new ControladorPrueba;
-
+    require_once('../modelo/modeloPrueba.php');
+    $modelo=new ModeloPrueba();
+    
     $pruebas=$controlador->pruebas();
+    $nfilas=$modelo->filas;
+    echo $nfilas;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,11 +37,18 @@ else{
                 <h5 class="text-center ">Alta de Pruebas</h5>
             </div>
             <div class="top-right-button-container">
-               <a href="./vistas/formularioPrueba.php"> <button type="button" data-toggle="modal" data-target="#FormularioAlta" class="btn btn-primary btn-lg top-right-button mr-1">NUEVA PRUEBA</button></a>
+               <a href="./formularioPrueba.php"> <button type="button" data-toggle="modal" data-target="#FormularioAlta" class="btn btn-primary btn-lg top-right-button mr-1">NUEVA PRUEBA</button></a>
             </div>
             <br><br><br>
             <div class="contenedor">
-            <table>
+           
+            
+           <?php
+
+
+
+           if($pruebas[1]>0){
+            echo ' <table>
             <tr>
                 <th>Nombre</th>
                 <th>Responsable</th>
@@ -45,11 +56,9 @@ else{
                 <th>Editar</th>
                 <th>Borrar</th>
                 <th>Inscripcion</th>
-            </tr>
+            </tr>';
             
-           <?php
-           if($pruebas->num_rows>0){
-               while($fila=$pruebas->fetch_assoc())
+               foreach($pruebas[0] as $fila)
                {
                     $responsable=$controlador->responsable2($fila['idResponsable']);
                     echo '
@@ -57,9 +66,9 @@ else{
                             <td>'.$fila['nombre'].'</td>
                             <td>'.$responsable.'</td>
                             <td>'.$fila['Max_Participantes'].'</td>
-                            <td><a href="./vistas/form_update.php?id='.$fila["idPrueba"].'"><img src="../../imagen/lapiz.png"></a></td>
-                            <td><a href="index.php?nombre='.$fila['nombre'].'&id='.$fila['idPrueba'].'"><img src="../../imagen/basura.jpg"></a></td>
-                            <td><a href="./vistas/form_inscripcion.php?id='.$fila["idPrueba"].'"><img src="../../imagen/inscripcion.jpg"></a></td>
+                            <td><a href="./form_update.php?id='.$fila["idPrueba"].'"><img src="../../imagen/lapiz.png"></a></td>
+                            <td><a href="indexPrueba.php?nombre='.$fila['nombre'].'&id='.$fila['idPrueba'].'"><img src="../../imagen/basura.jpg"></a></td>
+                            <td><a href="./form_inscripcion.php?id='.$fila["idPrueba"].'"><img src="../../imagen/inscripcion.jpg"></a></td>
                         </tr>';
                }
             }else{
