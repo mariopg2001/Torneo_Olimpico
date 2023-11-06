@@ -8,14 +8,8 @@ require_once './Modelo/modeloIndex.php';
         {
             $this->modelo = new ModeloIndex();
         }
-        public function responsable($id){
-            $resultado=$this->modelo->responsable($id);
-            return $resultado;
-        }
        
-        public function pruebas(){
-            $resultado=$this->modelo->pruebas();
-            return $resultado;
-        }
+       
+       
       
     }

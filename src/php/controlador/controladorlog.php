@@ -14,7 +14,9 @@
            if($datos>0){
                 session_start();
                 $_SESSION['usuario']=$datos;
-                header('Location: ../index.php');
+                header('Location: ./indexPrueba.php');
+                // echo '<script>window.location.href = "./indexPrueba.php";</script>';
+
             }    
         }
     }

@@ -23,7 +23,7 @@
             }
                 echo '<form method="POST" action="form_update.php">
                     <input class="inp" type="text" name="id" hidden value="'.$_GET['id'].'"/>
-                    <label for="name"><h5>Nombre de la prueba</h5></label>
+                    <label for="name"><h5>* Nombre de la prueba</h5></label>
 					<input class="inp" type="text" name="nombre" value="'.$prueba.'"/><br><br>
                     <label for="Responsable"><h5>Responsalble de la prueba</h5></label>
                     <select name="responsable" id="">';
@@ -40,14 +40,18 @@
 					echo '</select>
                     
                     <div class="form-row m-4"></br></br>
-                        <label for="name"><h5>Maximo de participantes de una prueba (por clase)</h5></label>
-                        <input type="number" name="participantes" class="form-control" value="'.$participantes.'" name="name" id="name" min="0">
+                        <label for="name"><h5>* Maximo de participantes de una prueba (por clase)</h5></label>
+                        <input type="number" name="participantes" class="form-control" value="'.$participantes.'" id="name" min="0">
                         </div>
                         <input type="submit" id="anadir" value="Aceptar"/>
 					</form>';
         }else{
-            $controlador= new ControladorPrueba;
-            $controlador->modificar($_POST);
+            if(!empty($_POST['nombre']) && !empty($_POST['participantes'])){
+                $controlador= new ControladorPrueba;
+                $controlador->modificar($_POST);
+            }else{
+                echo 'Debes rellenar los campos obligatorios (*)';
+            }
         }
     ?>
 

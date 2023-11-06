@@ -2,7 +2,7 @@
     require_once '../config/config.php';
     class Modelolog{
        private $conexion;
-
+    //    public $fila_afectadas;
         public function __construct(){
             $this->conexion=$this->conectar();
         }
@@ -13,19 +13,34 @@
             return $conexion;
         }
         public function iniciarSesion($correo,$usuario){
-            $this->conectar();
-            $consulta= 'SELECT * FROM usuarios WHERE correo="'.$correo.'"    ;';
-            $result= $this->conexion->query($consulta);
+            try{
+                $this->conectar();
+                $consulta= 'SELECT * FROM Usuarios WHERE correo="'.$correo.'";';
+                $result= $this->conexion->query($consulta);
+                $fila_afectadas= $this->conexion->affected_rows;
+                echo ''.$fila_afectadas.'';
+                if( $fila_afectadas<= 0){
+                    $mensaje ='El usuario o el correo son incorrectos';
+                    // echo '<script>window.location.href = "../index.php?mensaje='.$mensaje.'";</script>';
+                    header('Location: ../index.php?mensaje='.$mensaje);
 
-            while($fila = $result->fetch_assoc()){
-                $usuarioBD=$fila['nombre'];
-                $correoBD=$fila['correo'];
+                }
+                else{
+                   
+                    while($fila = $result->fetch_assoc()){
+                        $usuarioBD=$fila['nombre'];
+                        $correoBD=$fila['correo'];
+                        $idusuario=$fila['idUsuario'];
+                    }
+                    if($usuarioBD==$usuario && $correo==$correoBD){
+                        echo $idusuario;
+                        return $idusuario;
+                    }
+                    $this->conexion->close();
+                }
+            }catch(Exception $e){
+                echo $e->getCode();
+                echo $e->getMessage();
             }
-            if($usuarioBD==$usuario && $correo==$correoBD){
-                
-                return $usuario;
-                
-            }
-            $this->conexion->close();
         }
     }

@@ -1,7 +1,7 @@
 <?php
 require_once "../config/config.php";
     class ModeloPrueba{
-        public $fila_afectadas;
+        
         public $filas;
         private $conexion;
         public function __construct(){
@@ -18,19 +18,18 @@ require_once "../config/config.php";
             }
         }
         public function responsable(){
-            $sql= 'SELECT * from usuarios';
+            $sql= 'SELECT * from Usuarios';
             $result= $this->conexion->query($sql);
             return $result;
             
         } 
-      
-        public function InsertarPrueba( $participantes,$finicio,$Ffin,$responsable,$nombrePrueba){
+        public function InsertarPrueba( $participantes,$responsable,$nombrePrueba){
           
             try{
-                $insertar='INSERT INTO to_pruebas(idResponsable,nombre,fInicioInscripcion,fFinInscripcion,Max_Participantes,tipo) values ('.$responsable.',"'.$nombrePrueba.'","'.$finicio.'","'.$Ffin.'",'.$participantes.',"E");';
+                $insertar='INSERT INTO TO_Pruebas(idResponsable,nombre,idFechaInscripcion,Max_Participantes,tipo) values ('.$responsable.',"'.$nombrePrueba.'",1,'.$participantes.',"E");';
                 $this->conexion->query($insertar);
                 $idPrueba=$this->conexion->insert_id;
-                $insertarExclusiva='INSERT INTO to_exclusivas(idPruebaExclusiva) values('.$idPrueba.');';
+                $insertarExclusiva='INSERT INTO TO_Exclusivas(idPruebaExclusiva) values('.$idPrueba.');';
                 $this->conexion->query($insertarExclusiva);
             }catch(Exception $e){
                 // echo $e->getCode();
@@ -41,7 +40,7 @@ require_once "../config/config.php";
             }
         }
         public function Prueba(){
-            $sql= 'SELECT * from to_pruebas';
+            $sql= 'SELECT * from TO_Pruebas';
             $result= $this->conexion->query($sql);
             
             return $result;
@@ -49,7 +48,7 @@ require_once "../config/config.php";
         public function modificar($prueba){
             var_dump($prueba);
             try{
-                $sql = 'UPDATE to_pruebas 
+                $sql = 'UPDATE TO_Pruebas 
                 SET nombre= "'.$prueba['nombre'].'",idResponsable='.$prueba['responsable'].',Max_Participantes='.$prueba['participantes'].'
                 WHERE idPrueba = '.$prueba['id'].';';
                 $result = $this->conexion->query($sql);
@@ -62,12 +61,25 @@ require_once "../config/config.php";
                 } 
             }
         }
+        public function pruebas(){
+            $sql= 'SELECT * from TO_Pruebas';
+            $result= $this->conexion->query($sql);
+            $this->filas=$result->num_rows;
+            return $result;
+        }
+        public function responsable2($id){
+            $sql= 'SELECT nombre from Usuarios WHERE idUsuario='.$id;
+            $result= $this->conexion->query($sql);
+            $datos= $result->fetch_assoc();
+            return $datos['nombre'];
+            
+        } 
         public function borrar($id){
             try{
                 
-                $sql = " DELETE FROM to_exclusivas WHERE idPruebaExclusiva =".$id;
+                $sql = " DELETE FROM TO_Exclusivas WHERE idPruebaExclusiva =".$id;
                 $result = $this->conexion->query($sql);
-                $sql2 = " DELETE FROM to_pruebas WHERE idPrueba =".$id;
+                $sql2 = " DELETE FROM TO_Pruebas WHERE idPrueba =".$id;
                 $result2 = $this->conexion->query($sql2);
 
                 return $result2;

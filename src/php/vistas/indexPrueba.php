@@ -8,8 +8,8 @@
     ';
 }
 else{
-    require_once('./controlador/controladoIndex.php');
-    $controlador= new ControladorIndex;
+    require_once('../controlador/controladoPrueba.php');
+    $controlador= new ControladorPrueba;
 
     $pruebas=$controlador->pruebas();
 ?>
@@ -18,16 +18,15 @@ else{
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../css/style.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../../css/style.css">
         <title>Alta Pruebas </title>
     </head>
     <body>
         <header>
             <img src="src/logo.png" class="img-responsive" alt="logo"/>
             <span>Menu</span>
-            <span>Cerrar sesión</span>
+            <a href="./Flogin.php"><button>Cerrar Sesion</button></a>
         </header>
         <main>
             <div class="p-4 mb-3 bg-warning text-dark border border-dark">
@@ -52,15 +51,15 @@ else{
            if($pruebas->num_rows>0){
                while($fila=$pruebas->fetch_assoc())
                {
-                    $responsable=$controlador->responsable($fila['idResponsable']);
+                    $responsable=$controlador->responsable2($fila['idResponsable']);
                     echo '
                         <tr>
                             <td>'.$fila['nombre'].'</td>
                             <td>'.$responsable.'</td>
                             <td>'.$fila['Max_Participantes'].'</td>
-                            <td><a href="./vistas/form_update.php?id='.$fila["idPrueba"].'"><img src="../imagen/lapiz.png"></a></td>
-                            <td><a href="index.php?nombre='.$fila['nombre'].'&id='.$fila['idPrueba'].'"><img src="../imagen/basura.jpg"></a></td>
-                            <td><a href="./vistas/form_inscripcion.php?id='.$fila["idPrueba"].'"><img src="../imagen/inscripcion.jpg"></a></td>
+                            <td><a href="./vistas/form_update.php?id='.$fila["idPrueba"].'"><img src="../../imagen/lapiz.png"></a></td>
+                            <td><a href="index.php?nombre='.$fila['nombre'].'&id='.$fila['idPrueba'].'"><img src="../../imagen/basura.jpg"></a></td>
+                            <td><a href="./vistas/form_inscripcion.php?id='.$fila["idPrueba"].'"><img src="../../imagen/inscripcion.jpg"></a></td>
                         </tr>';
                }
             }else{

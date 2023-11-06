@@ -12,8 +12,12 @@ require_once '../Modelo/modeloPrueba.php';
             $resultado=$this->modelo->responsable();
             return $resultado;
         }
-        public function InsertarPrueba( $participantes,$finicio,$Ffin,$responsable,$nombrePrueba){
-            $resultado=$this->modelo->InsertarPrueba( $participantes,$finicio,$Ffin,$responsable,$nombrePrueba);
+        public function responsable2($id){
+            $resultado=$this->modelo->responsable2($id);
+            return $resultado;
+        }
+        public function InsertarPrueba( $participantes,$responsable,$nombrePrueba){
+            $resultado=$this->modelo->InsertarPrueba( $participantes,$responsable,$nombrePrueba);
             return $resultado;
         }
         public function Prueba(){
@@ -25,15 +29,19 @@ require_once '../Modelo/modeloPrueba.php';
             $resultado=$this->modelo->modificar($datos);
         
             if($resultado=='ok'){
-                header('location: ../index.php ');
+                header('location: ./indexPrueba.php ');
                 exit;
             }
         }
         public function eliminar($idPrueba){
             $resultado=$this->modelo->borrar($idPrueba);
             if($resultado>0){
-                header('location: ../index.php ');
+                header('location: ./indexPrueba.php ');
                 exit;
             }        
+        }
+        public function pruebas(){
+            $resultado=$this->modelo->pruebas();
+            return $resultado;
         }
     }
