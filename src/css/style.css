@@ -1,0 +1,123 @@
+html{
+    height: 100%;
+    min-height: 100%;
+    position: relative;
+}
+
+header{
+    width: 100%;
+    padding: 20px;
+    min-height: 125px;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.cabecera{
+    border: 0px;
+    background-color: white;
+    float: right;
+    margin: 25px 30px;
+    width: 50px;
+    height: 50px;
+    font-size: 35px;
+}
+
+.titulo{
+    background-color: orange;
+}
+
+#contenedor{
+    background-color: #2E70C7;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#form{
+    background: white;
+    width: 420px;
+    border-radius: 10px;
+    padding: 32px;
+    border: 1px solid orange;
+}
+
+.inputlog{
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 30px;
+    border: 1px solid gray;
+    padding: 15px 20px;
+    color:#8498AF;
+    border: 1px solid orange;
+}
+
+#buttonlog{
+    border-radius: 30px;
+    padding: 10px 15px;
+    background-color: #2E70C7;
+}
+
+.centrarDiv{
+    text-align: center;
+}
+
+select{
+    width: 100%;
+    min-width: 500px;
+}
+
+a{
+    color: black;
+    text-decoration: none;
+    font-style: none;
+}
+
+.centrar{
+    margin: 0 auto;
+}
+
+#middle{
+    margin-top: 20px;
+}
+
+table{
+    margin: 0 auto;
+    width: 70%;
+}
+
+td, tr, th{
+    border: 1px solid black;
+    padding: 10px 5px;
+}
+
+footer {
+    background-color: gray;
+    width: 100%;
+    height: 40px;
+    margin-top: auto;
+  }
+
+footer span{
+    color: black;
+    padding-left: 80px;
+    font-weight: bold;
+}
+
+.modal-lg { 
+    width: 100%; 
+}
+
+.modal-dialog{
+    max-width: 1500px;
+}
+
+#mensajeError{
+    color: red;
+}
