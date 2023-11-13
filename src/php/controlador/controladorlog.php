@@ -9,14 +9,14 @@
             $this->modelo = new Modelolog();
         }
 
-        public function iniciarSesion($correo,$usuario ){
-           $datos= $this->modelo->iniciarSesion($correo,$usuario );
-           if($datos>0){
+        public function iniciarSesion($correo){
+           $id = $this->modelo->iniciarSesion($correo);
+           if($id>0){
                 session_start();
-                $_SESSION['usuario']=$datos;
-                header('Location: ./indexPrueba.php');
-                // echo '<script>window.location.href = "./indexPrueba.php";</script>';
-
+                $_SESSION['usuario'] = $id;
+                $_SESSION['edad'] = 28;
+                echo'<meta http-equiv="refresh" content="0;url=./indexPrueba.php">';
+                
             }    
         }
     }

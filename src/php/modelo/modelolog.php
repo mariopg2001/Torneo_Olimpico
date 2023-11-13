@@ -12,32 +12,28 @@
 
             return $conexion;
         }
-        public function iniciarSesion($correo,$usuario){
+        public function iniciarSesion($correo){
             try{
                 $this->conectar();
                 $consulta= 'SELECT * FROM Usuarios WHERE correo="'.$correo.'";';
                 $result= $this->conexion->query($consulta);
                 $fila_afectadas= $this->conexion->affected_rows;
-                echo ''.$fila_afectadas.'';
-                if( $fila_afectadas<= 0){
-                    $mensaje ='El usuario o el correo son incorrectos';
-                    // echo '<script>window.location.href = "../index.php?mensaje='.$mensaje.'";</script>';
-                    header('Location: ../index.php?mensaje='.$mensaje);
-
-                }
-                else{
-                   
+                
                     while($fila = $result->fetch_assoc()){
-                        $usuarioBD=$fila['nombre'];
+                        // $usuarioBD=$fila['nombre'];
                         $correoBD=$fila['correo'];
                         $idusuario=$fila['idUsuario'];
                     }
-                    if($usuarioBD==$usuario && $correo==$correoBD){
-                        echo $idusuario;
+                    if( $correo==$correoBD){
+                        
                         return $idusuario;
+                    }else{
+                        $mensaje ='El usuario o el correo son incorrectos';
+                        echo '<script>window.location.href = "../index.php?mensaje='.$mensaje.'";</script>';
+                        // header('Location: ../index.php?mensaje='.$mensaje);
                     }
                     $this->conexion->close();
-                }
+                
             }catch(Exception $e){
                 echo $e->getCode();
                 echo $e->getMessage();
