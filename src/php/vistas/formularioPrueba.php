@@ -16,7 +16,7 @@
                 </div><br>
                 <div class="form-row m-4">
                     <label for="Responsable"><h5>Responsalble de la prueba</h5></label>
-                    <select name="responsable" id="">
+                    <select name="responsable" id="" class="form-control">
                         <?php
                             foreach($responsable as $fila){
                                 echo '<option value='.$fila['idUsuario'].'>'.$fila['nombre'].'</option>';

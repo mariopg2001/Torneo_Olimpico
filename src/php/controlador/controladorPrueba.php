@@ -65,5 +65,18 @@ require_once '../modelo/modeloPrueba.php';
                 // exit;
             }
         }
+          //funciones formularioInscripcion
+          public function alumno($idtutor,$sexo){
+            $resultado=$this->modelo->alumno($idtutor,$sexo);
+            return $resultado;
+        }
+        public function clase($idtutor){
+            $resultado=$this->modelo->clase($idtutor);
+            return $resultado;
+        }
+         public function altainscripcion($nombrepruebaparticipantes){
+            $resultado=$this->modelo->altainscripcion($nombrepruebaparticipantes);
+            return $resultado;
+        }
 
     }

@@ -68,7 +68,7 @@ body {
     text-align: center;
 }
 
-select{
+select.formularios{
     width: 100%;
     min-width: 500px;
 }
@@ -92,6 +92,13 @@ table{
     width: 70%;
 }
 
+table.inscripciones{
+    margin: 0 auto;
+    width: 85%;
+}
+td.pruebasceldas{
+    width: 50%;
+}
 td, tr, th{
     border: 1px solid black;
     padding: 10px 5px;
@@ -121,3 +128,30 @@ footer span{
 #mensajeError{
     color: red;
 }
+div.relevos{
+   margin-left: 120px;
+   margin-bottom: 25px;
+   margin-top: 25px;
+   width: 39%;
+   height: 50px;
+   align-items: center;
+   display: inline-block;
+}
+select.relevos{
+    width: 500px;
+    
+}
+select.exclusiva{
+    width: 325px;
+    
+}
+div.pruebas{
+    margin-top: 75px;
+    margin-left: 75px;
+    margin-bottom: 25px;
+    margin-top: 25px;
+    width: 325px;
+    height: 50px;
+    align-items: center;
+    display: inline-block;
+ }

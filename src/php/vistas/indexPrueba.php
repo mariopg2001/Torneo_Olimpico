@@ -32,7 +32,12 @@
 ?>
         <main>
             <div class="p-4 mb-3 text-dark border border-dark titulo">
-                <h5 class="text-center">Listado de Pruebas</h5>
+                <h5 class="text-center">Proceso de Inscripcion</h5>
+            </div>
+            <div>
+                <h5>CADA SECCIÓN REPRESENTARÁ A SU CLASE</h5>
+                <h6>*  Cada participante sólo podrá participar en una prueba excepto en 4 x 100 relevos que pueden repetir pero han de ser diferentes los corredores.</h6>
+                <h6>*  El número máximo de participantes por prueba se indica al lado de cada una</h6>
             </div>
             <?php 
              
@@ -61,7 +66,7 @@
                     <tr>
                     <th>Nombre</th>
                     <th>Responsable</th>
-                    <th>Participantes</th>';
+                    <th>Maximo de participantes por clase</th>';
                     if($usuario=='Administrador'){
                         echo'
                         <th>Editar</th>
