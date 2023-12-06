@@ -21,7 +21,7 @@
             <h1>Has iniciado sesion correctamente</h1>
             <?php
 
-                echo ' Bienvenido '.$_SESSION['usuario'];
+                echo ' Bienvenido '.$_SESSION['tipoUsuario'];
             ?> 
         </div>
     </body>

@@ -36,24 +36,6 @@
 
             return $datos['nombre'];
         } 
-        public function tipoUsuario($idusuario){
-            $sql= 'SELECT idPerfil from Perfiles_Usuarios where idUsuario='.$idusuario;
-            $result= $this->conexion->query($sql);
-            $datos= $result->fetch_assoc();
-
-            $sql2 = 'SELECT nombre from Perfiles WHERE idPerfil='.$datos['idPerfil'];
-            $result2 = $this->conexion->query($sql2);
-            $datos2= $result2->fetch_assoc();
-
-            return $datos2['nombre'];
-        }
-        public function nombreUsuario($idusuario){
-            $sql= 'SELECT nombre from Usuarios where idUsuario='.$idusuario;
-            $result= $this->conexion->query($sql);
-            $datos= $result->fetch_assoc();
-
-            return $datos['nombre'];
-        }
 
         //Funciones de FormularioPrueba
 
@@ -65,20 +47,27 @@
             
         } 
         public function InsertarPrueba($participantes,$responsable,$nombrePrueba){
-            try{
-                
+            
                 $insertar='INSERT INTO TO_Pruebas(idResponsable,nombre,Max_Participantes,tipo) values ('.$responsable.',"'.$nombrePrueba.'",'.$participantes.',"E");';
-                $this->conexion->query($insertar);
+               $result= $this->conexion->query($insertar);
                 $idPrueba=$this->conexion->insert_id;
 
                 $insertarExclusiva='INSERT INTO TO_Exclusivas(idPruebaExclusiva) values('.$idPrueba.');';
                 $this->conexion->query($insertarExclusiva);
+                if (!$result) {
+                    $error=$this->conexion->errno;
+                    var_dump($error);
+                    if($error==1452){
+                      
+                        $mensaje= 'Ya hay una prueba con ese nombre';
+                        echo '<script>window.location.href = "./indexPrueba.php?mensaje='.$mensaje.'";</script>';
 
-            }catch(Exception $e){
-                if($e->getCode()==1146){
-                    echo 'Ya existe una Prueba con ese nombre';
-                } 
-            }
+                    }
+                }else{
+                    $mensaje= 'La prueba se ha guardado correctamente';
+                    echo '<script>window.location.href = "./indexPrueba.php?mensaje='.$mensaje.'";</script>';
+                }
+            
         }
 
         //Funciones form_update
@@ -90,17 +79,27 @@
             return $result;
         }
         public function modificar($prueba){
-            try{
+            
                 $sql = 'UPDATE TO_Pruebas 
                 SET nombre= "'.$prueba['nombre'].'",idResponsable='.$prueba['responsable'].',Max_Participantes='.$prueba['participantes'].'
                 WHERE idPrueba = '.$prueba['id'].';';
                 $result = $this->conexion->query($sql);
-                return $result;
-            }catch(Exception $e){
-                if($e->getCode()==1146){
-                    echo 'Ya existe una Prueba con ese nombre';
-                } 
-            }
+              
+                if (!$result) {
+                    $error=$this->conexion->errno;
+                    var_dump($error);
+                    if($error==1062){
+                      
+                        $mensaje= 'Error al modificar, ya existe una prueba con ese nombre';
+                        echo '<script>window.location.href = "./indexPrueba.php?mensaje='.$mensaje.'";</script>';
+
+                    }
+                }else{
+                    $mensaje= 'La prueba se ha modificado correctamente';
+                    echo '<script>window.location.href = "./indexPrueba.php?mensaje='.$mensaje.'";</script>';
+                }
+              
+            
         }
 
         //funciones de borrar
@@ -174,7 +173,8 @@
                 }
                 
                 if(count($alumnofem)==0){
-                    unset($alumnofem);                
+                    unset($alumnofem);   
+
                 }else{
                     if($Prueba4x100=="4x100"){
 
@@ -187,7 +187,8 @@
                     
                 }
                 if(count($alumnomasc)==0){
-                    unset($alumnomasc);                
+                    unset($alumnomasc);    
+
                 }else{
                 if($Prueba4x100=="4x100"){
                     $sexo="m";
@@ -200,4 +201,59 @@
             
                 
             }
+            public function participantes4x100($idtutor){
+                $sql = 'SELECT idSeccion from Secciones where idTutor='.$idtutor;
+                $result = $this->conexion->query($sql);
+                $datos = $result->fetch_assoc();
+                
+                $sql2 = 'SELECT participante1,participante2,participante3,participante4,sexo from TO_Inscripciones4x100 where idClase='.$datos['idSeccion'];;
+                $result2 = $this->conexion->query($sql2);
+                $filas=$result2->num_rows;
+                $pruebas=array($result2, $filas);
+                return $pruebas;
+                
+            }
+            public function participantesExclusiva($prueba, $idtutor){
+                $sql = 'SELECT idSeccion from Secciones where idTutor='.$idtutor;
+                $result = $this->conexion->query($sql);
+                $datos = $result->fetch_assoc();
+
+                $sql1= 'SELECT idPrueba from TO_Pruebas where nombre="'.$prueba.'"';
+                $result1 = $this->conexion->query($sql1);
+                $datos2 = $result1->fetch_assoc();
+                    
+                $sql2 = 'SELECT TO_ins.idAlumno,TO_ins.sexo from TO_Inscripciones_Exclusivas AS TO_ins INNER JOIN Alumnos AS al on TO_ins.idAlumno= al.idAlumno where idPruebaExclusiva='.$datos2['idPrueba'].' AND al.idSeccion='.$datos['idSeccion'];
+                $result2 = $this->conexion->query($sql2);
+                 $filas2=$result2->num_rows;
+                
+                $pruebas=array($result2, $filas2);
+                return $pruebas;
+            } 
+            public function consultaInscripciones($idclase){
+                
+                $sql1= 'SELECT TO_ins.idAlumno from TO_Inscripciones_Exclusivas AS TO_ins INNER JOIN Alumnos AS al on TO_ins.idAlumno= al.idAlumno WHERE idSeccion='.$idclase;
+                $result1 = $this->conexion->query($sql1);
+                $filas1=$result1->num_rows;
+
+                $sql2 = 'SELECT idClase from TO_Inscripciones4x100 where idclase='.$idclase;
+                $result2 = $this->conexion->query($sql2);
+                $filas2=$result2->num_rows;
+                $filas3=$filas1+$filas2;
+                return $filas3;
+            } 
+            public function BorrarInscripcionesdeClase($idclase){
+                $sql = "DELETE FROM TO_Inscripciones_Exclusivas
+                WHERE idAlumno IN (SELECT idAlumno FROM Alumnos WHERE idSeccion=".$idclase. ")";
+                $this->conexion->query($sql);
+                $sql2="DELETE FROM TO_Inscripciones4x100 WHERE idClase=".$idclase;
+                $this->conexion->query($sql2);
+
+            }  
+            public function fechasInscripcion(){
+                $consulta='SELECT * FROM TO_FechaInscripcion';
+                $result=$this->conexion->query($consulta);
+                $datos = $result->fetch_assoc();
+                $fechas=array($datos['fechaInicio'],$datos['fechaFin']);
+                return $fechas;
+            }  
     }

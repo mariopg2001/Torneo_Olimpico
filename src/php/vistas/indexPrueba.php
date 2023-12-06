@@ -1,7 +1,9 @@
 <?php   
     session_start();
   
-
+    if(!isset($_SESSION['usuario'])){
+        include_once "error.html";
+    }else{
     if(isset($_GET['nombre']) && isset($_GET['id'])){
         include_once "cabecera.html";
         echo '
@@ -23,8 +25,6 @@
 
         
         $pruebas=$controlador->pruebasyfilas();
-        $usuario=$controlador->tipoUsuario($_SESSION['usuario']);
-        $nombreUsuario=$controlador->nombreUsuario($_SESSION['usuario']);
         $nfilas=$modelo->filas;
         echo $nfilas;
 
@@ -34,30 +34,32 @@
             <div class="p-4 mb-3 text-dark border border-dark titulo">
                 <h5 class="text-center">Proceso de Inscripcion</h5>
             </div>
-            <div>
-                <h5>CADA SECCIÓN REPRESENTARÁ A SU CLASE</h5>
-                <h6>*  Cada participante sólo podrá participar en una prueba excepto en 4 x 100 relevos que pueden repetir pero han de ser diferentes los corredores.</h6>
-                <h6>*  El número máximo de participantes por prueba se indica al lado de cada una</h6>
-            </div>
+          
             <?php 
              
              
-             if($usuario=='Tutor'){
+             if($_SESSION['tipoUsuario']=='Tutor'){
                  echo' 
                  <div class="top-right-button-container">
                  <a href="./formularioInscripcion.php"> <button type="button" data-toggle="modal" data-target="#FormularioAlta" class="btn btn-primary btn-lg top-right-button mr-1">INSCRIPCIONES</button></a>
-              </div>';
+                </div>
+                <div>
+                    <h5>CADA SECCIÓN REPRESENTARÁ A SU CLASE</h5>
+                    <h6>*  Cada participante sólo podrá participar en una prueba excepto en 4 x 100 relevos que pueden repetir pero han de ser diferentes los corredores.</h6>
+                    <h6>*  El número máximo de participantes por prueba se indica al lado de cada una</h6>
+                </div>';
              }
-             if($usuario=='Administrador'){
+             if($_SESSION['tipoUsuario']=='Coordinador de Actividades'){
                  echo'
                  <div class="top-right-button-container">
                  <a href="./formularioPrueba.php"> <button type="button" data-toggle="modal" data-target="#FormularioAlta" class="btn btn-primary btn-lg top-right-button mr-1">NUEVA PRUEBA</button></a>
               </div>';
              }
+             if(isset($_GET['mensaje'])){
+                echo '<h5>'.$_GET['mensaje'].'</h5>';
+             }
          ?>
-            <!-- <div class="top-right-button-container">
-               <a href="./formularioPrueba.php"> <button type="button" data-toggle="modal" data-target="#FormularioAlta" class="btn btn-primary btn-lg top-right-button mr-1">NUEVA PRUEBA</button></a>
-            </div> -->
+           
             <br><br><br>
             <div id="middle">
                 <?php
@@ -67,7 +69,7 @@
                     <th>Nombre</th>
                     <th>Responsable</th>
                     <th>Maximo de participantes por clase</th>';
-                    if($usuario=='Administrador'){
+                    if($_SESSION['tipoUsuario']=='Coordinador de Actividades'){
                         echo'
                         <th>Editar</th>
                         <th>Borrar</th>
@@ -83,7 +85,7 @@
                                     <td>'.$responsable.'</td>
                                     <td>'.$fila['Max_Participantes'].'</td>';
                                
-                                if($usuario=='Administrador'){
+                                if($_SESSION['tipoUsuario']=='Coordinador de Actividades'){
                                     echo'<td><a disabled href="./form_update.php?id='.$fila["idPrueba"].'"><i class="fa-solid fa-pen"></i></a></td>';
 
                                     if($fila['nombre']!= '4x100'){
@@ -108,4 +110,5 @@
         <?php
             include_once "footer.html";
             }
+        }
         ?>

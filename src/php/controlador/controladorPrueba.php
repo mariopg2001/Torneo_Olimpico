@@ -18,14 +18,6 @@ require_once '../modelo/modeloPrueba.php';
             $resultado=$this->modelo->responsablePrueba($id);
             return $resultado;
         }
-        public function tipoUsuario($idusuario){
-            $resultado=$this->modelo->tipoUsuario($idusuario);
-            return $resultado;
-        }
-        public function nombreUsuario($idusuario){
-            $resultado=$this->modelo->nombreUsuario($idusuario);
-            return $resultado;
-        }
 
         //Funciones de FormularioPrueba
 
@@ -50,8 +42,7 @@ require_once '../modelo/modeloPrueba.php';
         
             if($resultado=='ok'){
                 echo'<meta http-equiv="refresh" content="0;url=./indexPrueba.php">';
-                // echo '<script>window.location.href = "./indexPrueba.php";</script>';
-                // exit;
+                
             }
         }
 
@@ -61,8 +52,7 @@ require_once '../modelo/modeloPrueba.php';
             $resultado=$this->modelo->borrar($idPrueba);
             if($resultado>0){
                 echo'<meta http-equiv="refresh" content="0;url=./indexPrueba.php">';
-                // echo '<script>window.location.href = "./indexPrueba.php";</script>';
-                // exit;
+                
             }
         }
           //funciones formularioInscripcion
@@ -76,6 +66,27 @@ require_once '../modelo/modeloPrueba.php';
         }
          public function altainscripcion($nombrepruebaparticipantes){
             $resultado=$this->modelo->altainscripcion($nombrepruebaparticipantes);
+            return $resultado;
+        }
+
+        public function participantes4x100($idtutor){
+            $resultado=$this->modelo->participantes4x100($idtutor);
+            return $resultado;
+        }
+        public function participantesExclusiva($prueba,$idtutor){
+            $resultado=$this->modelo->participantesExclusiva($prueba,$idtutor);
+            return $resultado;
+        }
+        public function consultaInscripciones($idclase){
+            $resultado=$this->modelo->consultaInscripciones($idclase);
+            return $resultado;
+        }
+        public function BorrarInscripcionesdeClase($idclase){
+            $resultado=$this->modelo->BorrarInscripcionesdeClase($idclase);
+            return $resultado;
+        }
+        public function fechasInscripcion(){
+            $resultado=$this->modelo->fechasInscripcion();
             return $resultado;
         }
 

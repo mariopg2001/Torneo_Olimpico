@@ -25,8 +25,15 @@
                         $idusuario=$fila['idUsuario'];
                     }
                     if( $correo==$correoBD){
-                        
-                        return $idusuario;
+                        $consulta2= 'SELECT idPerfil from Perfiles_Usuarios where idUsuario='.$idusuario;
+                        $result2= $this->conexion->query($consulta2);
+                        $datos= $result2->fetch_assoc();
+
+                        $consulta3 = 'SELECT nombre from Perfiles WHERE idPerfil='.$datos['idPerfil'];
+                        $result3 = $this->conexion->query($consulta3);
+                        $datos2= $result3->fetch_assoc();
+                        $datoUsuario=array( $idusuario, $datos2['nombre']);
+                        return $datoUsuario;
                     }else{
                         $mensaje ='El usuario o el correo son incorrectos';
                         echo '<script>window.location.href = "../index.php?mensaje='.$mensaje.'";</script>';
