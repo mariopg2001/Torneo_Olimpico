@@ -90,4 +90,14 @@ require_once '../modelo/modeloPrueba.php';
             return $resultado;
         }
 
+        //funciones pdf
+        public function generarPDF($pruebas){
+            $resultado=$this->modelo->generarPDF($pruebas);
+            return $resultado;
+        }
+        public function generarPDFTodas(){
+            $resultado=$this->modelo->generarPDFTodas();
+            return $resultado;
+        }
+    
     }

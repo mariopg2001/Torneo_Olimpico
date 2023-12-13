@@ -1,7 +1,7 @@
 <?php
     session_start();
 
- if(!isset($_SESSION['usuario'])){
+ if(!isset($_SESSION['usuario']) || $_SESSION['tipoUsuario']=='Tutor'){
     include_once "error.html";
 }else{
     require_once('../controlador/controladorPrueba.php');

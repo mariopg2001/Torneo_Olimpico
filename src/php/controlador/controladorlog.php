@@ -16,7 +16,7 @@
               
                 $_SESSION['usuario'] = $result[0];
                 $_SESSION['tipoUsuario'] = $result[1];
-                echo'<meta http-equiv="refresh" content="0;url=./indexPrueba.php">';
+                echo'<meta http-equiv="refresh" content="0;url=../index.php">';
                 
             }    
         }

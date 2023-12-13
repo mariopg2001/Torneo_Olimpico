@@ -1,6 +1,6 @@
 <?php
     require_once "../config/config.php";
-
+    require_once('../fpdf/fpdf.php');
     class ModeloPrueba{
         
         public $filas;
@@ -65,7 +65,7 @@
                     }
                 }else{
                     $mensaje= 'La prueba se ha guardado correctamente';
-                    echo '<script>window.location.href = "./indexPrueba.php?mensaje='.$mensaje.'";</script>';
+                    echo '<script>window.location.href = "./indexPrueba.php?mensaje2='.$mensaje.'";</script>';
                 }
             
         }
@@ -96,7 +96,7 @@
                     }
                 }else{
                     $mensaje= 'La prueba se ha modificado correctamente';
-                    echo '<script>window.location.href = "./indexPrueba.php?mensaje='.$mensaje.'";</script>';
+                    echo '<script>window.location.href = "./indexPrueba.php?mensaje2='.$mensaje.'";</script>';
                 }
               
             
@@ -256,4 +256,338 @@
                 $fechas=array($datos['fechaInicio'],$datos['fechaFin']);
                 return $fechas;
             }  
+
+            //funciones pdf
+            public function generarPDF($pruebas) {
+                foreach($pruebas as $prueba){
+                    $sql = "SELECT * FROM TO_Pruebas WHERE idPrueba = ".$prueba."";
+                    $resultado = $this->conexion->query($sql);
+                    if($resultado){
+                        $fila = $resultado->fetch_assoc();
+                        if($fila['tipo'] == '4'){
+                            $array4x100 = $fila['idPrueba'];
+                        }else{
+                            $arrayExclusiva[] = $fila['idPrueba'];
+                        }
+                    }
+                }
+                if(isset($array4x100)){
+                    // echo "4x100";
+                    $nombrePrueba = '4x100';
+                    // $idPrueba = intval($datosPruebas['idPrueba']);
+                    $sql = "SELECT a.nombre as 'nombreAlumno', s.nombre as 'nombreSeccion', a.sexo, ca.nombre as 'nombreCategoria' FROM Alumnos a 
+                                INNER JOIN Secciones s ON a.idSeccion = s.idSeccion 
+                                INNER JOIN Cursos c ON c.idCurso = s.idCurso 
+                                INNER JOIN Etapas e ON e.idEtapa = c.idEtapa 
+                                INNER JOIN TO_CategoriasEtapas ce ON ce.idEtapa = e.idEtapa
+                                INNER JOIN TO_Categorias ca ON ce.idCategoria = ca.idCategoria
+                                INNER JOIN TO_Inscripciones4x100 ic ON ic.participante1 = a.idAlumno OR ic.participante2 = a.idAlumno OR ic.participante3 = a.idAlumno OR ic.participante4 = a.idAlumno
+                                    ORDER BY ca.idCategoria, a.sexo, s.idSeccion, a.nombre";
+
+                    $resultado = $this->conexion->query($sql);
+                    
+                            ob_clean();
+                            $pdf = new FPDF();
+                            $pdf->AddPage();
+                            $pdf->SetFont('Arial','B',16);
+                            $pdf->Cell(0,10,utf8_decode('Torneo Olímpico'),0,1,'C');
+                            $categoriaActual = null; // Inicializar la categoría actual
+                            $sexoActual = null; // Inicializar el sexo actual
+                            $i=1;
+                            while ($linea = $resultado->fetch_assoc()) {
+                                $categoria = $linea['nombreCategoria'];
+                                $sexo = $linea['sexo'];
+                            
+                                if ($categoria != $categoriaActual || $sexo != $sexoActual) {
+                                    if ($categoriaActual !== null) {
+                                        $pdf->AddPage();
+                                        $i=1;
+                                        // Agregar encabezado de la tabla en la nueva página
+                                    }
+                                    $categoriaActual = $categoria;
+                                    $sexoActual = $sexo;
+                                    if($sexo=='m'){
+                                        $sexo2='Masculino';
+                                    } else {
+                                        $sexo2='Femenino';
+                                    }
+                                    $pdf->SetFont('Arial','B',10);
+                                    $pdf->Cell(0,10,'Prueba: '.$nombrePrueba.' Cat: '. $categoria.' Sexo:'. $sexo2,0,1,'C');
+                                    $pdf->Ln(20);
+                                    $pdf->SetX(25); // Ajustar la posición X para el contenido de la tabla
+                                    $pdf->Cell(20, 10, utf8_decode('Nº'), 1, 0, 'C');
+                                    $pdf->Cell(80, 10, 'Nombre del Alumno', 1, 0, 'C'); // Ajustar el ancho de la celda
+                                    $pdf->Cell(40, 10, 'Clase', 1, 0, 'C');
+                                    $pdf->Cell(30, 10, 'Marca', 1, 1, 'C');
+                                }
+                                $pdf->SetX(25); // Ajustar la posición X para el contenido de la tabla
+                            
+                                $nombre = $linea['nombreAlumno'];
+                                $seccion = $linea['nombreSeccion'];
+                                $pdf->SetFont('Arial','',9);
+                                $pdf->Cell(20,10,$i, 1, 0, 'C');
+                                $pdf->Cell(80,10,utf8_decode($nombre), 1, 0, 'C');
+                                $pdf->Cell(40,10,utf8_decode($seccion), 1, 0, 'C');
+                                $pdf->Cell(30,10,'', 1, 1, 'C');
+                                $i++;
+                            
+                            }
+                            $zip = new ZipArchive();
+                            $zipFileName = 'Inscripciones.zip';
+                            if ($zip->open($zipFileName, ZipArchive::CREATE) === TRUE) {
+                                // Agregar el archivo PDF al ZIP
+                                $zip->addFile('Inscripciones'.$nombrePrueba.'.pdf', 'Inscripciones'.$nombrePrueba.'.pdf');
+                                $zip->close();
+                                // Descargar el archivo ZIP
+                                header('Content-Type: application/zip');
+                                header('Content-disposition: attachment; filename='.$zipFileName);
+                                header('Content-Length: ' . filesize($zipFileName));
+                                readfile($zipFileName);     
+                            }
+                            $pdf->Output('Inscripciones'.$nombrePrueba.'.pdf', 'F'); // Guardar el archivo PDF en el servidor
+                        
+                    
+
+                }
+                if(isset($arrayExclusiva)){   
+                    // echo "Exclusiva";
+                    foreach($pruebas as $prueba){
+                        $sql = "SELECT * FROM TO_Pruebas WHERE idPrueba = ".$prueba."";
+                        $result = $this->conexion->query($sql);
+                        ob_clean();
+                        $i=1;
+                        while($datosPruebas = $result->fetch_assoc()){
+                            $nombrePrueba = $datosPruebas['nombre'];
+                            $idPrueba = intval($datosPruebas['idPrueba']);
+                            $sql = "SELECT a.nombre as 'nombreAlumno', s.nombre as 'nombreSeccion', a.sexo, ca.nombre as 'nombreCategoria' FROM Alumnos a 
+                                        INNER JOIN Secciones s ON a.idSeccion = s.idSeccion 
+                                        INNER JOIN Cursos c ON c.idCurso = s.idCurso 
+                                        INNER JOIN Etapas e ON e.idEtapa = c.idEtapa 
+                                        INNER JOIN TO_CategoriasEtapas ce ON ce.idEtapa = e.idEtapa
+                                        INNER JOIN TO_Categorias ca ON ce.idCategoria = ca.idCategoria
+                                        INNER JOIN TO_Inscripciones_Exclusivas ie ON ie.idAlumno = a.idAlumno
+                                            WHERE ie.idPruebaExclusiva = $idPrueba
+                                            ORDER BY ca.idCategoria, a.sexo, s.idSeccion, a.nombre";
+                            $resultado = $this->conexion->query($sql);
+                            
+                            $pdf = new FPDF();
+                            $pdf->AddPage();
+                            $pdf->SetFont('Arial','B',16);
+                            $pdf->Cell(0,10,utf8_decode('Torneo Olímpico'),0,1,'C');
+                            $categoriaActual = null; // Inicializar la categoría actual
+                            $sexoActual = null; // Inicializar el sexo actual
+                            
+                            while ($linea = $resultado->fetch_assoc()) {
+                                $categoria = $linea['nombreCategoria'];
+                                $sexo = $linea['sexo'];
+                            
+                                if ($categoria != $categoriaActual || $sexo != $sexoActual) {
+                                    if ($categoriaActual !== null) {
+                                        $pdf->AddPage();
+                                        $i=1;
+                                        // Agregar encabezado de la tabla en la nueva página
+                                    }
+                                    $categoriaActual = $categoria;
+                                    $sexoActual = $sexo;
+                                    if($sexo=='m'){
+                                        $sexo2='Masculino';
+                                    } else {
+                                        $sexo2='Femenino';
+                                    }
+                                    $pdf->SetFont('Arial','B',10);
+                                    $pdf->Cell(0,10,'Prueba: '.$nombrePrueba.' Cat: '. $categoria.' Sexo:'. $sexo2,0,1,'C');
+                                    $pdf->Ln(20);
+                                    $pdf->SetX(25); // Ajustar la posición X para el contenido de la tabla
+                                    $pdf->Cell(20, 10, utf8_decode('Nº'), 1, 0, 'C');
+                                    $pdf->Cell(80, 10, 'Nombre del Alumno', 1, 0, 'C'); // Ajustar el ancho de la celda
+                                    $pdf->Cell(40, 10, 'Clase', 1, 0, 'C');
+                                    $pdf->Cell(30, 10, 'Marca', 1, 1, 'C');
+                                }
+                                $pdf->SetX(25); // Ajustar la posición X para el contenido de la tabla
+                            
+                                $nombre = $linea['nombreAlumno'];
+                                $seccion = $linea['nombreSeccion'];
+                                $pdf->SetFont('Arial','',9);
+                                $pdf->Cell(20,10,$i, 1, 0, 'C');
+                                $pdf->Cell(80,10,utf8_decode($nombre), 1, 0, 'C');
+                                $pdf->Cell(40,10,utf8_decode($seccion), 1, 0, 'C');
+                                $pdf->Cell(30,10,'', 1, 1, 'C');
+                                $i++;
+                            
+                            }
+                            $zip = new ZipArchive();
+                            $zipFileName = 'Inscripciones.zip';
+                            if ($zip->open($zipFileName, ZipArchive::CREATE) === TRUE) {
+                                // Agregar el archivo PDF al ZIP
+                                $zip->addFile('Inscripciones'.$nombrePrueba.'.pdf', 'Inscripciones'.$nombrePrueba.'.pdf');
+                                $zip->close();
+                                // Descargar el archivo ZIP
+                                header('Content-Type: application/zip');
+                                header('Content-disposition: attachment; filename='.$zipFileName);
+                                header('Content-Length: ' . filesize($zipFileName));
+                                readfile($zipFileName);     
+                            }
+                            $pdf->Output('Inscripciones'.$nombrePrueba.'.pdf', 'F'); // Guardar el archivo PDF en el servidor
+                        }
+                    }
+                    
+                    // Crear un archivo ZIP
+                    
+                   
+
+                }
+                ob_end_clean(); 
+                    readfile($zipFileName);
+    
+                    // Elimina el archivo ZIP después de la descarga
+                    unlink($zipFileName);
+               
+            }
+            public function generarPDFTodas() {
+                // $nombrePrueba = '4x100';
+               
+                $sql2 = "SELECT * FROM TO_Pruebas";
+                $result = $this->conexion->query($sql2);
+                while ($row = $result->fetch_assoc()) {
+                    $nombrePrueba = $row['nombre']; // Obtener el nombre de la prueba
+                    // echo $nombrePrueba;
+                    if($nombrePrueba=='4x100'){
+                        $sql = "SELECT a.nombre as 'nombreAlumno', s.nombre as 'nombreSeccion', a.sexo, ca.nombre as 'nombreCategoria' FROM Alumnos a 
+                        INNER JOIN Secciones s ON a.idSeccion = s.idSeccion 
+                        INNER JOIN Cursos c ON c.idCurso = s.idCurso 
+                        INNER JOIN Etapas e ON e.idEtapa = c.idEtapa 
+                        INNER JOIN TO_CategoriasEtapas ce ON ce.idEtapa = e.idEtapa
+                        INNER JOIN TO_Categorias ca ON ce.idCategoria = ca.idCategoria
+                        INNER JOIN TO_Inscripciones4x100 ic ON ic.participante1 = a.idAlumno OR ic.participante2 = a.idAlumno OR ic.participante3 = a.idAlumno OR ic.participante4 = a.idAlumno
+                        ORDER BY ca.idCategoria, a.sexo, s.idSeccion, a.nombre";
+                        $resultado = $this->conexion->query($sql);                 
+                        ob_clean();
+                        $pdf = new FPDF();
+                        $pdf->AddPage();
+                        $pdf->SetFont('Arial','B',16);
+                        $pdf->Cell(0,10,utf8_decode('Torneo Olímpico'),0,1,'C');
+                        $categoriaActual = null; // Inicializar la categoría actual
+                        $sexoActual = null; // Inicializar el sexo actual
+                        $i=1;
+                        while ($linea = $resultado->fetch_assoc()) {
+                            $categoria = $linea['nombreCategoria'];
+                            $sexo = $linea['sexo'];
+                            if ($categoria != $categoriaActual || $sexo != $sexoActual) {
+                                if ($categoriaActual !== null) {
+                                    $pdf->AddPage();
+                                    $i=1;
+                                    // Agregar encabezado de la tabla en la nueva página
+                                }
+                                $categoriaActual = $categoria;
+                                $sexoActual = $sexo;
+                                if($sexo=='m'){
+                                    $sexo2='Masculino';
+                                } else {
+                                    $sexo2='Femenino';
+                                }
+                                $pdf->SetFont('Arial','B',10);
+                                $pdf->Cell(0,10,'Prueba: '.$nombrePrueba.' Cat: '. $categoria.' Sexo:'. $sexo2,0,1,'C');
+                                $pdf->Ln(20);
+                                $pdf->SetX(25); // Ajustar la posición X para el contenido de la tabla
+                                $pdf->Cell(20, 10, utf8_decode('Nº'), 1, 0, 'C');
+                                $pdf->Cell(80, 10, 'Nombre del Alumno', 1, 0, 'C'); // Ajustar el ancho de la celda
+                                $pdf->Cell(40, 10, 'Clase', 1, 0, 'C');
+                                $pdf->Cell(30, 10, 'Marca', 1, 1, 'C');
+                            }
+                            $pdf->SetX(25); // Ajustar la posición X para el contenido de la tabla
+                            $nombre = $linea['nombreAlumno'];
+                            $seccion = $linea['nombreSeccion'];
+                            $pdf->SetFont('Arial','',9);
+                            $pdf->Cell(20,10,$i, 1, 0, 'C');
+                            $pdf->Cell(80,10,utf8_decode($nombre), 1, 0, 'C');
+                            $pdf->Cell(40,10,utf8_decode($seccion), 1, 0, 'C');
+                            $pdf->Cell(30,10,'', 1, 1, 'C');
+                            $i++;
+
+                        }
+
+                    }else{
+        
+                        $idsPruebas = array(); // Crear un array para almacenar los IDs de las pruebas
+                
+                        foreach($result as $datosPruebas) {
+                            $idsPruebas[] = intval($datosPruebas['idPrueba']); // Almacenar el ID de la prueba en el array
+                        }
+                        array_shift($idsPruebas);
+                      
+                        foreach($idsPruebas as $prueba){
+                            // echo $prueba.' ';
+                            $sql = "SELECT * FROM TO_Pruebas WHERE idPrueba = ".$prueba."";
+                                $resultado = $this->conexion->query($sql);
+                            // echo $sql.'<br/>';
+                            $i=1;
+                            while($datosPruebas = $resultado->fetch_assoc()){
+                                $nombrePrueba = $datosPruebas['nombre'];
+                                $idPrueba = intval($datosPruebas['idPrueba']);
+                                $sql3 = "SELECT a.nombre as 'nombreAlumno', s.nombre as 'nombreSeccion', a.sexo, ca.nombre as 'nombreCategoria' FROM Alumnos a 
+                                            INNER JOIN Secciones s ON a.idSeccion = s.idSeccion 
+                                            INNER JOIN Cursos c ON c.idCurso = s.idCurso 
+                                            INNER JOIN Etapas e ON e.idEtapa = c.idEtapa 
+                                            INNER JOIN TO_CategoriasEtapas ce ON ce.idEtapa = e.idEtapa
+                                            INNER JOIN TO_Categorias ca ON ce.idCategoria = ca.idCategoria
+                                            INNER JOIN TO_Inscripciones_Exclusivas ie ON ie.idAlumno = a.idAlumno
+                                                WHERE ie.idPruebaExclusiva = $idPrueba
+                                                ORDER BY ca.idCategoria, a.sexo, s.idSeccion, a.nombre";
+                                $resultado2 = $this->conexion->query($sql3);
+                                
+                                if ($resultado2->num_rows > 0) {
+                                    $pdf->AddPage();
+                                    $pdf->SetFont('Arial','B',16);
+                                    $pdf->Cell(0,10,utf8_decode('Torneo Olímpico'),0,1,'C');
+                                    $categoriaActual = null; // Inicializar la categoría actual
+                                    $sexoActual = null; // Inicializar el sexo actual
+                                    while ($linea = $resultado2->fetch_assoc()) {
+                                        $categoria = $linea['nombreCategoria'];
+                                        $sexo = $linea['sexo'];
+                                    
+                                        if ($categoria != $categoriaActual || $sexo != $sexoActual) {
+                                            if ($categoriaActual !== null) {
+                                                $pdf->AddPage();
+                                                $i=1;
+                                                // Agregar encabezado de la tabla en la nueva página
+                                            }
+                                            $categoriaActual = $categoria;
+                                            $sexoActual = $sexo;
+                                            if($sexo=='m'){
+                                                $sexo2='Masculino';
+                                            } else {
+                                                $sexo2='Femenino';
+                                            }
+                                            $pdf->SetFont('Arial','B',10);
+                                            $pdf->Cell(0,10,'Prueba: '.$nombrePrueba.' Cat: '. $categoria.' Sexo:'. $sexo2,0,1,'C');
+                                            $pdf->Ln(20);
+                                            $pdf->SetX(25); // Ajustar la posición X para el contenido de la tabla
+                                            $pdf->Cell(20, 10, utf8_decode('Nº'), 1, 0, 'C');
+                                            $pdf->Cell(80, 10, 'Nombre del Alumno', 1, 0, 'C'); // Ajustar el ancho de la celda
+                                            $pdf->Cell(40, 10, 'Clase', 1, 0, 'C');
+                                            $pdf->Cell(30, 10, 'Marca', 1, 1, 'C');
+                                        }
+                                        $pdf->SetX(25); // Ajustar la posición X para el contenido de la tabla
+                                    
+                                        $nombre = $linea['nombreAlumno'];
+                                        $seccion = $linea['nombreSeccion'];
+                                        $pdf->SetFont('Arial','',9);
+                                        $pdf->Cell(20,10,$i, 1, 0, 'C');
+                                        $pdf->Cell(80,10,utf8_decode($nombre), 1, 0, 'C');
+                                        $pdf->Cell(40,10,utf8_decode($seccion), 1, 0, 'C');
+                                        $pdf->Cell(30,10,'', 1, 1, 'C');
+                                        $i++;
+                                
+                                    }
+                                }
+                            }
+                        }  
+                        $pdf->Output('InscripcionesCompletas.pdf', 'D'); // Guardar el archivo PDF en el servidor
+
+                    }
+                }
+            }
     }
+
+        
+    // 

@@ -27,7 +27,7 @@
         $pruebas=$controlador->pruebasyfilas();
         $nfilas=$modelo->filas;
         echo $nfilas;
-
+       
     include_once "cabecera.html";
 ?>
         <main>
@@ -53,10 +53,16 @@
                  echo'
                  <div class="top-right-button-container">
                  <a href="./formularioPrueba.php"> <button type="button" data-toggle="modal" data-target="#FormularioAlta" class="btn btn-primary btn-lg top-right-button mr-1">NUEVA PRUEBA</button></a>
+              </div><br/>
+              <div class="top-right-button-container">
+                 <a href="./formExportar.php" > <button type="button" data-toggle="modal" data-target="#FormularioAlta" class="btn btn-primary btn-lg top-right-button mr-1">Descargar Inscripciones</button></a>
               </div>';
              }
              if(isset($_GET['mensaje'])){
-                echo '<h5>'.$_GET['mensaje'].'</h5>';
+                echo '<h5 id="errores">'.$_GET['mensaje'].'</h5>';
+             }
+             if(isset($_GET['mensaje2'])){
+                echo '<h5 id="errores2">'.$_GET['mensaje2'].'</h5>';
              }
          ?>
            
@@ -105,6 +111,7 @@
                     }
                 ?>
                 </table>
+                <a href="../index.php"><button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button></a>
             </div>
         </main>
         <?php
