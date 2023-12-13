@@ -10,12 +10,13 @@
         }
 
         public function iniciarSesion($correo){
-           $id = $this->modelo->iniciarSesion($correo);
-           if($id>0){
+           $result = $this->modelo->iniciarSesion($correo);
+           if($result[0]>0){
                 session_start();
-                $_SESSION['usuario'] = $id;
-                $_SESSION['edad'] = 28;
-                echo'<meta http-equiv="refresh" content="0;url=./indexPrueba.php">';
+              
+                $_SESSION['usuario'] = $result[0];
+                $_SESSION['tipoUsuario'] = $result[1];
+                echo'<meta http-equiv="refresh" content="0;url=../index.php">';
                 
             }    
         }

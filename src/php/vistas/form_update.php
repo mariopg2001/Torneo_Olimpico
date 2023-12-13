@@ -1,4 +1,9 @@
 <?php
+session_start();
+  
+if(!isset($_SESSION['usuario'])|| $_SESSION['tipoUsuario']=='Tutor'){
+    include_once "error.html";
+}else{
     include_once "cabecera.html";
 ?>
         <main>
@@ -6,6 +11,9 @@
                 <h5 class="text-center ">Modificar Pruebas</h5>
             </div>
             <?php
+                if(isset($_GET['mensaje'])){
+                    echo '<h5>'.$_GET['mensaje'].'</h5>';
+                }
                 require_once('../controlador/controladorPrueba.php');
                 if(empty($_POST)){
                     $controlador= new ControladorPrueba;
@@ -63,13 +71,15 @@
                         $controlador= new ControladorPrueba;
                         $controlador->modificar($_POST);
                     }else{
-                        echo 'Debes rellenar los campos obligatorios (*)';
+                        $mensaje= 'Debes rellenar los campos obligatorios(*)';
+                        echo '<script>window.location.href = "./form_update.php?mensaje='.$mensaje.'";</script>';
                     }
                 }
             ?>
         </main>
         <?php
             include_once "footer.html";
+}
         ?>
     </body>
 </html>

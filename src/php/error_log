@@ -1,0 +1,2 @@
+[27-Nov-2023 18:49:13 UTC] PHP Warning:  require_once(./vistas/login.php): failed to open stream: No such file or directory in /home/user2daw/public_html/29/torneo_olimpico_pruebas/torneo_olimpico/src/php/index.php on line 4
+[27-Nov-2023 18:49:13 UTC] PHP Fatal error:  require_once(): Failed opening required './vistas/login.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home/user2daw/public_html/29/torneo_olimpico_pruebas/torneo_olimpico/src/php/index.php on line 4

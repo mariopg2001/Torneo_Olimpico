@@ -3,13 +3,28 @@ html{
     min-height: 100%;
     position: relative;
 }
-
+.tituloForm{
+    text-align: center;
+    margin: 30px 0px;
+}
 header{
     width: 100%;
     padding: 20px;
     min-height: 125px;
 }
+.box {
+    font-size: 19px;
+    width: 30%;
+    min-width: 260px;
+    height: 50px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
 
+div.box > input[type="checkbox"]{
+    float: right;
+}
 body {
     margin: 0;
     height: 100%;
@@ -68,7 +83,7 @@ body {
     text-align: center;
 }
 
-select{
+select.formularios{
     width: 100%;
     min-width: 500px;
 }
@@ -78,12 +93,24 @@ a{
     text-decoration: none;
     font-style: none;
 }
-
+div#centrar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+}
 .centrar{
     margin: 0 auto;
 }
+#errores{
+    color:red;
+}
 
+#errores2{
+    color:blue;
+}
 #middle{
+
     margin-top: 20px;
 }
 
@@ -91,7 +118,19 @@ table{
     margin: 0 auto;
     width: 70%;
 }
-
+h4.titulos{
+    text-align: center;
+    margin-top: 20px;
+}
+table.inscripciones{
+    margin: 0 auto;
+    width: 85%;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+td.pruebasceldas{
+    width: 50%;
+}
 td, tr, th{
     border: 1px solid black;
     padding: 10px 5px;
@@ -121,3 +160,30 @@ footer span{
 #mensajeError{
     color: red;
 }
+div.relevos{
+   margin-left: 120px;
+   margin-bottom: 25px;
+   margin-top: 25px;
+   width: 39%;
+   height: 50px;
+   align-items: center;
+   display: inline-block;
+}
+select.relevos{
+    width: 500px;
+    
+}
+select.exclusiva{
+    width: 325px;
+    
+}
+div.pruebas{
+    margin-top: 75px;
+    margin-left: 75px;
+    margin-bottom: 25px;
+    margin-top: 25px;
+    width: 325px;
+    height: 50px;
+    align-items: center;
+    display: inline-block;
+ }

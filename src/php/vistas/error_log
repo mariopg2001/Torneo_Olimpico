@@ -1,0 +1,24 @@
+[25-Nov-2023 21:40:05 UTC] PHP Fatal error:  Uncaught Error: Call to a member function fetch_assoc() on bool in /home/user2daw/public_html/29/torneo_olimpico/src/php/modelo/modeloPrueba.php:210
+Stack trace:
+#0 /home/user2daw/public_html/29/torneo_olimpico/src/php/controlador/controladorPrueba.php(81): ModeloPrueba->participantes4x100(NULL)
+#1 /home/user2daw/public_html/29/torneo_olimpico/src/php/vistas/formularioInscripcion.php(10): ControladorPrueba->participantes4x100(NULL)
+#2 {main}
+  thrown in /home/user2daw/public_html/29/torneo_olimpico/src/php/modelo/modeloPrueba.php on line 210
+[25-Nov-2023 21:40:48 UTC] PHP Fatal error:  Uncaught Error: Call to a member function fetch_assoc() on bool in /home/user2daw/public_html/29/torneo_olimpico/src/php/modelo/modeloPrueba.php:42
+Stack trace:
+#0 /home/user2daw/public_html/29/torneo_olimpico/src/php/controlador/controladorPrueba.php(22): ModeloPrueba->tipoUsuario(NULL)
+#1 /home/user2daw/public_html/29/torneo_olimpico/src/php/vistas/indexPrueba.php(26): ControladorPrueba->tipoUsuario(NULL)
+#2 {main}
+  thrown in /home/user2daw/public_html/29/torneo_olimpico/src/php/modelo/modeloPrueba.php on line 42
+[27-Nov-2023 17:43:50 UTC] PHP Fatal error:  Uncaught Error: Call to a member function fetch_assoc() on bool in /home/user2daw/public_html/29/torneo_olimpico_pruebas/torneo_olimpico/src/php/modelo/modeloPrueba.php:210
+Stack trace:
+#0 /home/user2daw/public_html/29/torneo_olimpico_pruebas/torneo_olimpico/src/php/controlador/controladorPrueba.php(81): ModeloPrueba->participantes4x100(NULL)
+#1 /home/user2daw/public_html/29/torneo_olimpico_pruebas/torneo_olimpico/src/php/vistas/formularioInscripcion.php(10): ControladorPrueba->participantes4x100(NULL)
+#2 {main}
+  thrown in /home/user2daw/public_html/29/torneo_olimpico_pruebas/torneo_olimpico/src/php/modelo/modeloPrueba.php on line 210
+[27-Nov-2023 17:43:55 UTC] PHP Fatal error:  Uncaught Error: Call to a member function fetch_assoc() on bool in /home/user2daw/public_html/29/torneo_olimpico_pruebas/torneo_olimpico/src/php/modelo/modeloPrueba.php:42
+Stack trace:
+#0 /home/user2daw/public_html/29/torneo_olimpico_pruebas/torneo_olimpico/src/php/controlador/controladorPrueba.php(22): ModeloPrueba->tipoUsuario(NULL)
+#1 /home/user2daw/public_html/29/torneo_olimpico_pruebas/torneo_olimpico/src/php/vistas/indexPrueba.php(26): ControladorPrueba->tipoUsuario(NULL)
+#2 {main}
+  thrown in /home/user2daw/public_html/29/torneo_olimpico_pruebas/torneo_olimpico/src/php/modelo/modeloPrueba.php on line 42

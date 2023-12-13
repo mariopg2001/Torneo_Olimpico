@@ -1,4 +1,9 @@
 <?php
+    session_start();
+
+ if(!isset($_SESSION['usuario']) || $_SESSION['tipoUsuario']=='Tutor'){
+    include_once "error.html";
+}else{
     require_once('../controlador/controladorPrueba.php');
     $controlador = new ControladorPrueba;
     $responsable = $controlador->responsable();
@@ -9,6 +14,11 @@
             <div class="p-4 mb-3 text-dark border border-dark titulo">
                 <h5 class="text-center ">Alta de Pruebas</h5>
             </div>
+            <?php
+                if(isset($_GET['mensaje'])){
+                    echo '<h5>'.$_GET['mensaje'].'</h5>';
+                }
+             ?>
             <form action="formularioPrueba.php" method="post">
                 <div class="form-row m-4">
                     <label for="name"><h5>* Nombre de la prueba</h5></label>
@@ -16,7 +26,7 @@
                 </div><br>
                 <div class="form-row m-4">
                     <label for="Responsable"><h5>Responsalble de la prueba</h5></label>
-                    <select name="responsable" id="">
+                    <select name="responsable" id="" class="form-control">
                         <?php
                             foreach($responsable as $fila){
                                 echo '<option value='.$fila['idUsuario'].'>'.$fila['nombre'].'</option>';
@@ -40,13 +50,16 @@
     ?>
 </html>
 <?php
+}
     if(isset($_POST['guardar'])){
         if(!empty($_POST['nombrePrueba']) && !empty($_POST['participantes'])){
             $Prueba= $controlador->InsertarPrueba($_POST['participantes'],$_POST['responsable'], $_POST['nombrePrueba']);
             echo '<script>window.location.href = "./indexPrueba.php";</script>';    // Redirige al usuario a la página de confirmación después de realizar la inserción
             exit;
         }else{  
-            echo 'Debes rellenar los campos obligatorios (*)';
+            $mensaje= 'Debe rellenar los campos obligatorios(*)';
+            echo '<script>window.location.href = "./formularioPrueba.php?mensaje='.$mensaje.'";</script>';
         }
     }
+
 ?>
