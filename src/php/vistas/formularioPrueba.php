@@ -16,7 +16,7 @@
             </div>
             <?php
                 if(isset($_GET['mensaje'])){
-                    echo '<h5>'.$_GET['mensaje'].'</h5>';
+                    echo '<h5 id="errores">'.$_GET['mensaje'].'</h5>';
                 }
              ?>
             <form action="formularioPrueba.php" method="post">
@@ -26,7 +26,7 @@
                 </div><br>
                 <div class="form-row m-4">
                     <label for="Responsable"><h5>Responsalble de la prueba</h5></label>
-                    <select name="responsable" id="" class="form-control">
+                    <select name="responsable" id="" class="form-select">
                         <?php
                             foreach($responsable as $fila){
                                 echo '<option value='.$fila['idUsuario'].'>'.$fila['nombre'].'</option>';

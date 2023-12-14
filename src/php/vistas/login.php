@@ -28,10 +28,6 @@
             </div>
         </div>
     </body>
-    <?php
-            include_once "footer.html";
-            
-        ?>
 </html>
 <?php
 if(isset($_POST['login'])){

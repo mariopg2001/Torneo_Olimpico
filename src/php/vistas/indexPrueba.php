@@ -32,14 +32,14 @@
 ?>
         <main>
             <div class="p-4 mb-3 text-dark border border-dark titulo">
-                <h5 class="text-center">Proceso de Inscripcion</h5>
+                <h5 class="text-center">Listado de pruebas</h5>
             </div>
           
             <?php 
              
              
              if($_SESSION['tipoUsuario']=='Tutor'){
-                 echo' 
+                 echo' <div id="contenedor2">
                  <div class="top-right-button-container">
                  <a href="./formularioInscripcion.php"> <button type="button" data-toggle="modal" data-target="#FormularioAlta" class="btn btn-primary btn-lg top-right-button mr-1">INSCRIPCIONES</button></a>
                 </div>
@@ -47,16 +47,14 @@
                     <h5>CADA SECCIÓN REPRESENTARÁ A SU CLASE</h5>
                     <h6>*  Cada participante sólo podrá participar en una prueba excepto en 4 x 100 relevos que pueden repetir pero han de ser diferentes los corredores.</h6>
                     <h6>*  El número máximo de participantes por prueba se indica al lado de cada una</h6>
-                </div>';
+                </div></div>';
              }
              if($_SESSION['tipoUsuario']=='Coordinador de Actividades'){
                  echo'
-                 <div class="top-right-button-container">
-                 <a href="./formularioPrueba.php"> <button type="button" data-toggle="modal" data-target="#FormularioAlta" class="btn btn-primary btn-lg top-right-button mr-1">NUEVA PRUEBA</button></a>
-              </div><br/>
-              <div class="top-right-button-container">
+                 <div class="top-right-button-container" id="contenedor2">
+                 <a href="./formularioPrueba.php"> <button type="button" data-toggle="modal" data-target="#FormularioAlta" class="btn btn-primary btn-lg top-right-button mr-1">Nueva Prueba</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                  <a href="./formExportar.php" > <button type="button" data-toggle="modal" data-target="#FormularioAlta" class="btn btn-primary btn-lg top-right-button mr-1">Descargar Inscripciones</button></a>
-              </div>';
+                 </div>';
              }
              if(isset($_GET['mensaje'])){
                 echo '<h5 id="errores">'.$_GET['mensaje'].'</h5>';
@@ -111,7 +109,9 @@
                     }
                 ?>
                 </table>
-                <a href="../index.php"><button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button></a>
+                <div id="centrar2">
+                    <a href="../index.php"><button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button></a>
+                </div>
             </div>
         </main>
         <?php

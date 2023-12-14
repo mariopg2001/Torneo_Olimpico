@@ -99,6 +99,17 @@ div#centrar {
     align-items: center;
     height: 500px;
 }
+div#contenedor2{
+    margin-left: 15px;
+}
+div#centrar2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   margin-top: 25px;
+   margin-bottom: 50px;
+  
+}
 .centrar{
     margin: 0 auto;
 }
@@ -136,17 +147,18 @@ td, tr, th{
     padding: 10px 5px;
 }
 
-footer {
-    background-color: gray;
-    width: 100%;
-    height: 40px;
-    margin-top: auto;
-  }
-
-footer span{
-    color: black;
-    padding-left: 80px;
-    font-weight: bold;
+footer{
+    background-color: gray;     
+    text-align: center;     
+    position: fixed;     
+    bottom: 0;     
+    width: 100%;     
+    height: 30px; 
+}
+footer span{     
+    color: black;     
+    padding-left: 80px;     
+    font-weight: bold; 
 }
 
 .modal-lg { 
@@ -162,15 +174,14 @@ footer span{
 }
 div.relevos{
    margin-left: 120px;
-   margin-bottom: 25px;
-   margin-top: 25px;
-   width: 39%;
-   height: 50px;
+   margin-bottom: 10px;
+   margin-top: 15px;
+   width: 40%;
    align-items: center;
    display: inline-block;
 }
 select.relevos{
-    width: 500px;
+    width: 400px;
     
 }
 select.exclusiva{
@@ -180,10 +191,9 @@ select.exclusiva{
 div.pruebas{
     margin-top: 75px;
     margin-left: 75px;
-    margin-bottom: 25px;
-    margin-top: 25px;
+    margin-top: 15px;
+    margin-bottom: 10px;
     width: 325px;
-    height: 50px;
     align-items: center;
     display: inline-block;
  }

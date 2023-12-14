@@ -12,7 +12,7 @@ if(!isset($_SESSION['usuario'])|| $_SESSION['tipoUsuario']=='Tutor'){
             </div>
             <?php
                 if(isset($_GET['mensaje'])){
-                    echo '<h5>'.$_GET['mensaje'].'</h5>';
+                    echo '<h5 id="errores">'.$_GET['mensaje'].'</h5>';
                 }
                 require_once('../controlador/controladorPrueba.php');
                 if(empty($_POST)){
@@ -41,7 +41,7 @@ if(!isset($_SESSION['usuario'])|| $_SESSION['tipoUsuario']=='Tutor'){
                            echo' </div><br>
                             <div class="form-row m-4">
                                 <label for="Responsable"><h5>Responsalble de la prueba</h5></label>
-                                <select name="responsable" id="">';
+                                <select name="responsable" class="form-select">';
 
                             foreach($responsable as $fila2){
                                 if( $responsable2==$fila2['idUsuario']){
