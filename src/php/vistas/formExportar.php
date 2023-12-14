@@ -11,16 +11,23 @@ session_start();
     $pruebas = $controlador->getPruebaExclusiva();
     $pruebas4x100 = $controlador->getPrueba4x100();
     include_once "cabecera.html";
+    
 ?>
         <main>
             <div class="p-4 mb-3 text-dark border border-dark titulo">
                 <h5 class="text-center">Exportar inscripciones</h5>
             </div>
+            <?php 
+            if(isset($_GET['mensaje'])){
+                echo '<h5 id="errores">'.$_GET['mensaje'].'</h5>';
+            }
+            ?>
             <div class="tituloForm">
                 <h5>Selecciona las pruebas de las cuales quiere exportar las inscripciones a excel:</h5>
             </div>
             <?php
                 if(!empty($pruebas)){
+
             ?>
             <form action="formExportar.php" method="POST">
                 <?php
@@ -82,18 +89,16 @@ session_start();
     if(isset($_POST['guardarpdf'])){
         if(!empty($_POST["checkPruebas"])) {
             // Incluir la librería FPDF
-            require_once('../controlador/controladorPrueba.php');
-            $controlador2= new ControladorPrueba;
-            $datos=$controlador2->generarPDF($_POST["checkPruebas"]);
+            $datos=$controlador->exportarInscripcionesPdf($_POST["checkPruebas"]);
            
-        } else {
-            echo '<div>Debes seleccionar una prueba</div>';
+        }else{
+            $mensaje= 'Debes seleccionar al menos una prueba';
+            echo '<script>window.location.href = "./formExportar.php?mensaje='.$mensaje.'";</script>';
         }
     }
     if(isset($_POST['guardarpdftodas'])){
-        require_once('../controlador/controladorPrueba.php');
-        $controlador2= new ControladorPrueba;
-        $datos=$controlador2->generarPDFTodas();
+      
+        $datos=$controlador->generarPDFTodas();
     }
 }    
     

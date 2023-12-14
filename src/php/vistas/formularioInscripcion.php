@@ -10,9 +10,9 @@ if(!isset($_SESSION['usuario'])|| $_SESSION['tipoUsuario']!='Tutor'){
     include_once "cabecera.html";
 
     // Requerir el controlador de prueba
-    require_once('../controlador/controladorPrueba.php');
+    require_once('../controlador/controladorInscripciones.php');
     $mensaje=0;
-    $controlador = new ControladorPrueba;
+    $controlador = new ControladorInscripcion;
     $pruebas = $controlador->pruebasyfilas();
     $fechaActual = date('Y-m-d');
 
@@ -452,7 +452,7 @@ if(!isset($_SESSION['usuario'])|| $_SESSION['tipoUsuario']!='Tutor'){
         include_once 'footer.html';
         }
         if(isset($_POST['guardar'])){
-            require_once('../controlador/controladorPrueba.php');
+            require_once('../controlador/controladorInscripciones.php');
             $idclase= $controlador->clase($_SESSION['usuario']);
             $inscripciones=$controlador->consultaInscripciones($idclase);
             
