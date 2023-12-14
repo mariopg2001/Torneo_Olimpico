@@ -20,8 +20,11 @@
             <?php
             if($_SESSION['tipoUsuario']!='Tutor'){
             echo '<span class="botones">
-                <a href="./vistas/formExportar.php"><button type="button" class="btn btn-primary btn-lg mr-1">EXPORTAR LISTADOS</button></a>
-            </span>';
+                    <a href="./vistas/formExportar.php"><button type="button" class="btn btn-primary btn-lg mr-1">EXPORTAR LISTADOS</button></a>
+                </span>
+                <span class="botones">
+                    <a href="./vistas/formFechasInscripciones.php"><button type="button" class="btn btn-primary btn-lg mr-1">MODIFICAR FECHA INSCRIPCIÓN</button></a>
+                </span>';
             }
             ?>
         </div>

@@ -10,6 +10,7 @@ session_start();
     $controlador = new ControladorExcel;
     $pruebas = $controlador->getPruebaExclusiva();
     $pruebas4x100 = $controlador->getPrueba4x100();
+    // Incluir la cabecera de la página
     include_once "cabecera.html";
 ?>
         <main>
@@ -20,8 +21,14 @@ session_start();
                 <h5>Selecciona las pruebas de las cuales quiere exportar las inscripciones a excel:</h5>
             </div>
             <?php
+                if(isset($_GET['mensaje'])){
+                    echo '<span id="mensajeError">'.$_GET['mensaje'].'</span><br><br>';
+                }
+            ?>
+            <?php
                 if(!empty($pruebas)){
             ?>
+            <!-- Formulario para seleccionar las pruebas de las cuales se quiere exportar los datos de las inscripciones -->
             <form action="formExportar.php" method="POST">
                 <?php
                 foreach($pruebas4x100 as $prueba4x100){
@@ -54,8 +61,8 @@ session_start();
                 }
                 ?><br>
                 <div class="p-5 col-auto text-center">
-                    <a href="./indexPrueba.php"><button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button></a>
-                    <a href="./indexPrueba.php" ><button type="submit" name="guardar" class="btn btn-primary btn-submit">Exportar excel</button></a>
+                    <a href="../index.php"><button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button></a>
+                    <a href="../index.php" ><button type="submit" name="guardar" class="btn btn-primary btn-submit">Exportar excel</button></a>
                     <button type="submit" name="guardarpdf" class="btn btn-primary btn-submit">Exportar pdf</button>
                     <button type="submit" name="guardarpdftodas" class="btn btn-primary btn-submit">Exportar pdf todas las Pruebas</button>
                 </div>
@@ -68,6 +75,7 @@ session_start();
         </main>
     </body>
     <?php
+        // Incluir el footer de la página
         include_once "footer.html";
     ?>
 </html>
@@ -75,27 +83,25 @@ session_start();
     if(isset($_POST['guardar'])){
         if(!empty($_POST["checkPruebas"])) {
             $exportar = $controlador->exportarInscripciones($_POST['checkPruebas']);
-            // Incluir la librería FPDF
-            
+        }else{
+            echo '<div>Debes seleccionar una prueba</div>';
         }
     }
     if(isset($_POST['guardarpdf'])){
-        if(!empty($_POST["checkPruebas"])) {
+        if(!empty($_POST["checkPruebas"])){
             // Incluir la librería FPDF
             require_once('../controlador/controladorPrueba.php');
-            $controlador2= new ControladorPrueba;
+            $controlador2 = new ControladorPrueba;
             $datos=$controlador2->generarPDF($_POST["checkPruebas"]);
            
-        } else {
+        }else{
             echo '<div>Debes seleccionar una prueba</div>';
         }
     }
     if(isset($_POST['guardarpdftodas'])){
         require_once('../controlador/controladorPrueba.php');
-        $controlador2= new ControladorPrueba;
-        $datos=$controlador2->generarPDFTodas();
+        $controlador2 = new ControladorPrueba;
+        $datos = $controlador2->generarPDFTodas();
     }
 }    
-    
-
 ?>

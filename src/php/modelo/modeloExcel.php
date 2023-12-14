@@ -22,6 +22,7 @@
                 return $conexion;
             }
         }
+        // Función para obtener las pruebas exclusivas existentes en la base de datos para ser mostradas en la vista
         public function getPruebaExclusiva(){
             $sql = 'SELECT idPrueba, nombre, COUNT(idPruebaExclusiva) AS num_inscripciones, tipo FROM TO_Pruebas 
                         LEFT JOIN TO_Inscripciones_Exclusivas ON idPrueba = idPruebaExclusiva
@@ -34,6 +35,7 @@
 
             return $result;
         }
+        // Función para obtener las pruebas 4x100 existentes en la base de datos para ser mostradas en la vista
         public function getPrueba4x100(){
             $sql = 'SELECT idPrueba, nombre, tipo, (SELECT COUNT(*) FROM TO_Inscripciones4x100) AS num_inscripciones
                         FROM TO_Pruebas
@@ -42,6 +44,7 @@
 
             return $result;
         }
+        // Función para exportar los datos de las inscripciones a pruebas 
         public function exportarInscripciones($pruebas){
             try{
                 foreach($pruebas as $prueba){
@@ -222,15 +225,15 @@
                 header('Content-Length: '.filesize($nombreZip));
 
                 ob_end_clean();     // Limpia el búffer de salida y su contenido sin enviar nada al navegador
-// Lee el archivo ZIP y envía el contenido al navegador
-readfile($nombreZip);
+                // Lee el archivo ZIP y envía el contenido al navegador
+                readfile($nombreZip);
 
-// Elimina el archivo ZIP después de la descarga
-unlink($nombreZip);
+                // Elimina el archivo ZIP después de la descarga
+                unlink($nombreZip);
 
-// Agrega un script JavaScript para redirigir al usuario después de la descarga
-echo '<script>window.location = "./indexPrueba.php";</script>';
-return 0;
+                // Agrega un script JavaScript para redirigir al usuario después de la descarga
+                echo '<script>window.location = "./indexPrueba.php";</script>';
+                return 0;
             }catch(Exception $e){
                 echo 'Error: ',  $e->getMessage(), "\n";
             }
