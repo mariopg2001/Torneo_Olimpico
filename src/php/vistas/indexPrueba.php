@@ -42,29 +42,28 @@
                  echo' <div id="contenedor2">
                  <div class="top-right-button-container">
                  <a href="./formularioInscripcion.php"> <button type="button" data-toggle="modal" data-target="#FormularioAlta" class="btn btn-primary btn-lg top-right-button mr-1">INSCRIPCIONES</button></a>
-                </div>
+                </div><br>
                 <div>
                     <h5>CADA SECCIÓN REPRESENTARÁ A SU CLASE</h5>
                     <h6>*  Cada participante sólo podrá participar en una prueba excepto en 4 x 100 relevos que pueden repetir pero han de ser diferentes los corredores.</h6>
                     <h6>*  El número máximo de participantes por prueba se indica al lado de cada una</h6>
-                </div></div>';
+                </div></div><br><br>';
              }
              if($_SESSION['tipoUsuario']=='Coordinador de Actividades'){
                  echo'
-                 <div class="top-right-button-container" id="contenedor2">
-                 <a href="./formularioPrueba.php"> <button type="button" data-toggle="modal" data-target="#FormularioAlta" class="btn btn-primary btn-lg top-right-button mr-1">Nueva Prueba</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 <div class="top-right-button-container" id="contenedor1">
                  <a href="./formExportar.php" > <button type="button" data-toggle="modal" data-target="#FormularioAlta" class="btn btn-primary btn-lg top-right-button mr-1">Descargar Inscripciones</button></a>
-                 </div>';
+                 </div> <br>';
              }
              if(isset($_GET['mensaje'])){
-                echo '<h5 id="errores">'.$_GET['mensaje'].'</h5>';
+                echo '<div id="centrar3"><h5 id="errores">'.$_GET['mensaje'].'</h5></div>';
              }
              if(isset($_GET['mensaje2'])){
-                echo '<h5 id="errores2">'.$_GET['mensaje2'].'</h5>';
+                echo '<div id="centrar3"><h5 id="errores2">'.$_GET['mensaje2'].'</h5></div>';
              }
          ?>
            
-            <br><br><br>
+           
             <div id="middle">
                 <?php
                  if($pruebas[1]>0){
@@ -110,6 +109,12 @@
                 ?>
                 </table>
                 <div id="centrar2">
+                <?php if($_SESSION['tipoUsuario']=='Coordinador de Actividades'){
+                 echo '<a href="./formularioPrueba.php"> <button type="button" data-dismiss="modal" class="btn btn-secondary ">Nueva Prueba</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp';
+
+                }
+                
+                ?>
                     <a href="../index.php"><button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button></a>
                 </div>
             </div>

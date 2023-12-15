@@ -23,13 +23,16 @@ session_start();
             }
             ?>
             <div class="tituloForm">
-                <h5>Selecciona las pruebas de las cuales quiere exportar las inscripciones a excel:</h5>
+                <h5>Selecciona las pruebas de las cuales quiere exportar las inscripciones:</h5>
             </div>
             <?php
                 if(!empty($pruebas)){
 
             ?>
             <form action="formExportar.php" method="POST">
+                    <div id="contenedor3">
+                        <button type="submit" name="guardarpdftodas" class="btn btn-primary btn-submit">Exportar pdf todas las Pruebas</button>
+                    </div> 
                 <?php
                 foreach($pruebas4x100 as $prueba4x100){
                     $num_inscripciones = $prueba4x100['num_inscripciones'];
@@ -59,12 +62,12 @@ session_start();
                         </div>';
                     }
                 }
-                ?><br>
-                <div class="p-5 col-auto text-center">
-                    <a href="./indexPrueba.php"><button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button></a>
-                    <a href="./indexPrueba.php" ><button type="submit" name="guardar" class="btn btn-primary btn-submit">Exportar excel</button></a>
+                ?>
+                <div id="formBotones" class="col-auto text-center">
+                    <a href="./indexPrueba.php"><button type="button" class="btn btn-secondary" data-dismiss="modal">Volver</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="./indexPrueba.php" ><button type="submit" name="guardar" class="btn btn-primary btn-submit">Exportar excel</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <button type="submit" name="guardarpdf" class="btn btn-primary btn-submit">Exportar pdf</button>
-                    <button type="submit" name="guardarpdftodas" class="btn btn-primary btn-submit">Exportar pdf todas las Pruebas</button>
+                                   
                 </div>
             </form>
             <?php

@@ -102,12 +102,39 @@ div#centrar {
 div#contenedor2{
     margin-left: 15px;
 }
+div#contenedor1{
+    display: flex;
+    justify-content: right;
+    margin-right: 25px;
+    margin-top: 25px;
+    align-items: center;
+}
+div#contenedor3{
+    display: flex;
+    justify-content: right;
+    margin-right: 40px;
+    margin-top: 40px;
+    align-items: center;
+}
+div#formBotones{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+}
 div#centrar2 {
     display: flex;
     justify-content: center;
     align-items: center;
    margin-top: 25px;
    margin-bottom: 50px;
+  
+}
+div#centrar3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ 
   
 }
 .centrar{
